@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parasat Quiz Show Feedback</title>
+<style>
+    body { font-family: Arial, sans-serif; background:white; display:flex; justify-content:center; padding:20px;}
+    .frame { border:12px solid #0b5c80; padding:10px;}
+    .inner { border:8px solid #f4c400; padding:20px;}
+    .container{ max-width:600px; }
+    h1{text-align:center;}
+    .stars{text-align:center; margin:20px 0;}
+    .star{font-size:50px; cursor:pointer; color:#ccc;}
+    .star.selected{color:gold;}
+    textarea{
+    width: 100%;
+    box-sizing: border-box;
+    height: 180px;
+    font-size: 18px;
+    padding: 12px;
+    border: 3px solid #777;
+    border-radius: 12px;
+    outline: none;
+}
+
+    button{margin-top:20px; width:100%; padding:15px; font-size:20px; background:#0b5c80; color:white; border:none; border-radius:8px; cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="frame">
+<div class="inner">
+<div class="container">
+	<div class="logo" style="text-align:center; margin-bottom:20px;">
+    <!-- СЮДА ВСТАВЬ СВОЙ ЛОГОТИП -->
+    <img src="parasat1.png" alt="Logo" style="width:200px;">  
+</div>
+
+
+<h1>Parasat Quiz Show Feedback</h1>
+
+<div class="stars" id="stars">
+  <span class="star" data-value="1">★</span>
+  <span class="star" data-value="2">★</span>
+  <span class="star" data-value="3">★</span>
+  <span class="star" data-value="4">★</span>
+  <span class="star" data-value="5">★</span>
+</div>
+
+<textarea id="comment" placeholder="Write your comment..."></textarea>
+
+<button onclick="send()">Send</button>
+
+</div>
+</div>
+</div>
+
+<script>
+let rating=0;
+document.querySelectorAll('.star').forEach(star=>{
+  star.onclick=()=>{
+    rating = star.dataset.value;
+    document.querySelectorAll('.star').forEach(s=>s.classList.remove('selected'));
+    for(let i=0;i<rating;i++){ document.querySelectorAll('.star')[i].classList.add('selected'); }
+  };
+});
+
+function send(){
+  const comment = document.getElementById('comment').value;
+  if(!rating){ alert("Please choose a rating."); return; }
+
+  // <<< ВСТАВЬ СВОЙ ПОЛНЫЙ ТОКЕН СЮДА >>>
+  const token = "8267666027:AAHnCg2uzpNHkXZGkDHhAwS00jyVnTwXCuk";
+;
+
+  const chat_id = "484072932";
+  const text = `⭐ Rating: ${rating}%0A💬 Comment: ${comment}`;
+
+  fetch(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${text}`)
+    .then(()=> alert("Feedback sent!"))
+    .catch(()=> alert("Error sending feedback"));
+}
+</script>
+
+</body>
+</html>
